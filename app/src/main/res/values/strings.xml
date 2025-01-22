@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">English To Urdu Translator</string>
+    <string name="menu_home">English Urdu Translator</string>
+
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="history">History</string>
+    <string name="settings">Settings</string>
+</resources>

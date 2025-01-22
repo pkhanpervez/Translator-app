@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_translate_24"
+        android:title="@string/menu_home" />
+
+
+    <group android:checkableBehavior="single">
+
+        <item android:title="About Us">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/nav_ourapp"
+                        android:icon="@drawable/our_apps_24"
+                        android:title="Our Apps" />
+
+                    <item
+                        android:id="@+id/nav_share"
+                        android:icon="@drawable/ic_share_24"
+                        android:title="Share App" />
+
+                    <item
+                        android:id="@+id/nav_rateus"
+                        android:icon="@drawable/baseline_star_rate_24"
+                        android:title="Rate Us" />
+                </group>
+            </menu>
+        </item>
+    </group>
+
+</menu>
