@@ -22,7 +22,8 @@ Welcome to the Translator App! This is an open-source Android application built 
 ### Clone the Repository
 
 ```bash
-$ git clone https://github.com/yourusername/translator-app.git
+
+$ git clone https://github.com/pkhanpervez/Translator-app.git
 $ cd translator-app
 ```
 
