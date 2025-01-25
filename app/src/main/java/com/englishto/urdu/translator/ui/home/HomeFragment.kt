@@ -47,7 +47,6 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var translatorManager: TranslatorManager
-    var isEnglish = true
     private var extractedText: String = ""
 
     private lateinit var takePictureLauncher: ActivityResultLauncher<Intent>
@@ -185,45 +184,7 @@ class HomeFragment : Fragment() {
         binding.etUrdu.setTextSize(TypedValue.COMPLEX_UNIT_SP, translatedTextSize)
 
     }
-    private fun shareText() {
-        var textToShare = ""
 
-        textToShare = binding.etUrdu.text.toString()
-        if (textToShare.isNotEmpty()) {
-            // Create a share intent
-            val shareIntent = Intent(Intent.ACTION_SEND).apply {
-                type = "text/plain" // MIME type for plain text
-                putExtra(Intent.EXTRA_TEXT, textToShare) // Text to share
-            }
-
-            // Start the share activity
-            startActivity(Intent.createChooser(shareIntent, "Share text via"))
-        } else {
-            Toast.makeText(requireContext(), "No text to share!", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun copyContent() {
-        var textToCopy = ""
-        textToCopy = binding.etUrdu.text.toString()
-
-        if (textToCopy.isNotEmpty()) {
-            // Get ClipboardManager instance
-            val clipboard =
-                requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-
-            // Create a ClipData object to store the text
-            val clip = ClipData.newPlainText("Copied Text", textToCopy)
-
-            // Set the ClipData to the clipboard
-            clipboard.setPrimaryClip(clip)
-
-            // Show a Toast message
-            Toast.makeText(requireContext(), "Copied!", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(requireContext(), "No text to copy!", Toast.LENGTH_SHORT).show()
-        }
-    }
 
     private fun translateText() {
         var textToTranslate = ""
@@ -239,79 +200,6 @@ class HomeFragment : Fragment() {
                 }
             }
 
-        }
-    }
-    private fun swapLanguage() {
-        isEnglish = !isEnglish
-        if (!isEnglish) { //Urdu at Top
-            translatorManager.initializeTranslator(
-                selectedLanguageCode, // Source language
-                TranslateLanguage.ENGLISH  // Target language
-            )
-            binding.tvEnglish.text = selectedLanguage
-            binding.etUrdu.hint = "ENGLISH"
-            binding.etEnglish.hint = selectedHint2
-
-        } else {
-            translatorManager.initializeTranslator(
-                TranslateLanguage.ENGLISH, // Source language
-                selectedLanguageCode  // Target language
-            )
-            binding.tvEnglish.text = "ENGLISH"
-            binding.etUrdu.hint = selectedLanguage
-            binding.etEnglish.hint = selectedHint1
-        }
-
-        val temp = binding.etEnglish.text.toString()
-        binding.etEnglish.setText(binding.etUrdu.text.toString())
-        binding.etUrdu.setText(temp)
-    }
-
-    private fun startSpeechRecognition() {
-        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-            putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak something...")
-        }
-        try {
-            speechRecognizerLauncher.launch(intent)
-        } catch (e: Exception) {
-            Toast.makeText(
-                requireActivity(),
-                "Speech recognition is not supported on this device.",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-    }
-
-    private fun allPermissionsGranted() =
-        ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-
-    private val requestPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) {
-                dispatchTakePictureIntent()
-            } else {
-                Log.e("HomeFragment", "Camera permission not granted")
-            }
-        }
-
-    private fun dispatchTakePictureIntent() {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        try {
-            takePictureLauncher.launch(takePictureIntent)
-        } catch (e: ActivityNotFoundException) {
-            Toast.makeText(requireContext(), "No camera app available", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    // Select image from gallery intent
-    private fun dispatchSelectFromGalleryIntent() {
-        val selectFromGalleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        try {
-            selectImageLauncher.launch(selectFromGalleryIntent)
-        } catch (e: Exception) {
-            Toast.makeText(requireContext(), "Unable to open gallery", Toast.LENGTH_SHORT).show()
         }
     }
 
