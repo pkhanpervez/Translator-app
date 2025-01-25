@@ -100,41 +100,9 @@ class HomeFragment : Fragment() {
             selectedHint2 = "मराठीत टाइप करा किंवा पेस्ट करा"
         }
 
-        tts = TextToSpeech(requireContext()) { status ->
-            if (status == TextToSpeech.SUCCESS) {
-                // Set default language
-                val result = tts.setLanguage(Locale.getDefault())
-                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                    // Handle unsupported language case
-                    binding.ivSpeak.isEnabled = false
-                }
-            } else {
-                binding.ivSpeak.isEnabled = false
-            }
-        }
-
-        binding.ivSpeak.setOnClickListener {
-            val text = binding.etEnglish.text.toString()
-            if (text.isNotBlank()) {
-                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
-            }
-        }
-
-
-        binding.ivTranslatedSpeak.setOnClickListener {
-            val text = binding.etUrdu.text.toString()
-            if (text.isNotBlank()) {
-                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
-            }
-        }
-
         binding.tvEnglish.text = "ENGLISH"
         binding.etUrdu.hint = selectedLanguage
         binding.etEnglish.hint = selectedHint1
-
-        binding.ivSwap.setOnClickListener {
-            swapLanguage()
-        }
 
         speechRecognizerLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -193,40 +161,6 @@ class HomeFragment : Fragment() {
 
         binding.ivSend.setOnClickListener {
             translateText()
-        }
-
-        binding.ivFavorite.setOnClickListener {
-            //Handle favorite code
-        }
-
-        binding.ivCamera.setOnClickListener {
-            if (allPermissionsGranted()) {
-                dispatchTakePictureIntent()
-            } else {
-                requestPermissionLauncher.launch(Manifest.permission.CAMERA)
-            }
-        }
-
-        binding.ivGallery.setOnClickListener {
-            dispatchSelectFromGalleryIntent()
-        }
-
-        binding.ivMic.setOnClickListener {
-            startSpeechRecognition()
-        }
-
-
-        binding.ivDelete.setOnClickListener {
-            binding.etEnglish.setText("")
-            binding.etUrdu.setText("")
-        }
-
-        binding.ivCopy.setOnClickListener {
-            copyContent()
-        }
-
-        binding.ivShare.setOnClickListener {
-            shareText()
         }
 
     }
